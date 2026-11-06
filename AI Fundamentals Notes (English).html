@@ -1,0 +1,1347 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AI Fundamentals Notes (English)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Mukta:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky chapter rail on the left (desktop), one reading column ~68ch; stacks to single column on phone */
+:root{
+  --bg:#f6f7fa; --surface:#ffffff; --fg:#1a1f2e; --muted:#5a6378; --line:#dde2eb;
+  --accent:#2c56c9; --accent-soft:#e7edfb;
+  --ink:#3b2a7a; --ink-soft:#efeafb;
+  --test:#a8520c; --test-soft:#fcf0e2;
+  --ok:#1d7548; --ok-soft:#e3f4ea;
+  --warn:#b0263a;
+  --f-display:"Tiro Devanagari Hindi", "Noto Serif Devanagari", Georgia, serif;
+  --f-body:"Mukta", "Noto Sans Devanagari", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f121a; --surface:#161a25; --fg:#e5e8f1; --muted:#9aa3b7; --line:#283043;
+  --accent:#86a3ff; --accent-soft:#1b2440; --ink:#c4b2ff; --ink-soft:#221c3a;
+  --test:#f0a660; --test-soft:#2a1e12;
+  --ok:#62d39c; --ok-soft:#12291e; --warn:#ff8a99; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f121a; --surface:#161a25; --fg:#e5e8f1; --muted:#9aa3b7; --line:#283043;
+  --accent:#86a3ff; --accent-soft:#1b2440; --ink:#c4b2ff; --ink-soft:#221c3a;
+  --test:#f0a660; --test-soft:#2a1e12;
+  --ok:#62d39c; --ok-soft:#12291e; --warn:#ff8a99; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:17px;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 80px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:48px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:24px}}
+
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:14.5px}
+@media (max-width:900px){nav.rail{position:static;max-height:none}}
+.rail h2{font-family:var(--f-body);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px;font-weight:700}
+.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rail a{display:flex;gap:8px;align-items:baseline;color:var(--fg);text-decoration:none;padding:3px 8px;border-radius:6px;line-height:1.35}
+.rail a:hover{background:var(--accent-soft)}
+.rail a .n{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);min-width:20px}
+.rail a.done .t::after{content:" ✓";color:var(--ok);font-weight:700}
+.rail a.active{background:var(--accent-soft);color:var(--accent)}
+.prog{margin:4px 0 8px}
+.prog .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.prog small{color:var(--muted);font-size:13px}
+details.mtoc>summary{display:none}
+@media (max-width:900px){
+  details.mtoc{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px}
+  details.mtoc>summary{display:block;cursor:pointer;font-weight:700}
+}
+
+main{min-width:0;max-width:780px}
+header.hero{padding-bottom:28px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.langswitch{display:inline-flex;gap:6px;align-items:center;font-size:14px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:99px;padding:3px 12px;margin-bottom:14px}
+.langswitch:hover{background:var(--accent-soft)}
+.eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,50px);line-height:1.15;margin:8px 0 12px;text-wrap:balance}
+.lede{font-size:19px;color:var(--muted);margin:0 0 18px}
+.howto{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14.5px;color:var(--muted)}
+.howto span b{color:var(--fg)}
+
+.part{margin-top:56px;padding:10px 0 0;border-top:2px solid var(--fg)}
+.part .eyebrow{color:var(--muted)}
+.part h2{font-family:var(--f-display);font-weight:400;font-size:28px;margin:4px 0 0;text-wrap:balance}
+.part p{color:var(--muted);margin:4px 0 0}
+
+section.topic{margin-top:48px;scroll-margin-top:24px}
+.topic-head{display:flex;gap:14px;align-items:baseline}
+.topic-head .num{font-family:var(--f-mono);font-size:14px;color:var(--accent);font-weight:600}
+h3{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,3.4vw,31px);line-height:1.25;margin:0;text-wrap:balance}
+.goal{color:var(--muted);font-size:15.5px;margin:4px 0 14px}
+h4{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 0 6px;font-weight:700}
+p{margin:0 0 12px}
+ul,ol.steps{margin:0 0 12px;padding-left:22px}
+li{margin:3px 0}
+strong{font-weight:700}
+.en{font-weight:600}
+code,.mono{font-family:var(--f-mono);font-size:.86em;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+
+/* the four-step topic opener */
+.stage{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink);margin:22px 0 6px;display:flex;align-items:center;gap:8px}
+.stage::after{content:"";flex:1;height:1px;background:var(--line)}
+.techdef{background:var(--ink-soft);border-radius:8px;padding:14px 18px;margin:6px 0 4px;font-size:17.5px;line-height:1.75}
+.techdef p{margin:0}
+.techdef .f{font-family:var(--f-mono);font-size:14.5px;display:block;margin-top:8px;color:var(--ink)}
+dl.terms{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr);margin:6px 0 4px;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+dl.terms dt,dl.terms dd{margin:0;padding:7px 12px;border-bottom:1px solid var(--line);font-size:15.5px;line-height:1.55}
+dl.terms dt{font-weight:700;color:var(--ink);background:var(--bg)}
+dl.terms dt:nth-last-of-type(1),dl.terms dd:last-of-type{border-bottom:0}
+@media (max-width:560px){dl.terms{grid-template-columns:minmax(0,1fr)}dl.terms dt{border-bottom:0;padding-bottom:0}}
+ul.oneliners{list-style:none;padding:0;margin:6px 0 4px;display:flex;flex-direction:column;gap:6px}
+ul.oneliners li{margin:0;padding:6px 12px 6px 34px;position:relative;background:var(--surface);border:1px solid var(--line);border-radius:6px;font-size:16px;line-height:1.55}
+ul.oneliners li::before{content:"→";position:absolute;left:12px;top:6px;color:var(--ink);font-weight:700}
+
+.def{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:8px 0 16px}
+.def .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.def p{margin:4px 0 0;font-size:18px}
+
+.ex{background:var(--ok-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.ex .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);font-weight:700}
+.ex p:last-child,.ex ul:last-child{margin-bottom:0}
+
+.tester{background:var(--test-soft);border:1px dashed var(--test);border-radius:8px;padding:12px 16px;margin:16px 0}
+.tester .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--test);font-weight:700}
+.tester p:last-child,.tester ul:last-child{margin-bottom:0}
+
+.formula{font-family:var(--f-mono);font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:12px 0;overflow-x:auto;white-space:nowrap}
+
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+
+figure{margin:16px 0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto}
+figure svg{display:block;width:100%;height:auto;min-width:460px}
+figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+svg text{font-family:var(--f-body);fill:var(--fg)}
+svg .muted{fill:var(--muted)}
+svg .acc{fill:var(--accent)}
+svg .okc{fill:var(--ok)}
+svg .box{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+svg .boxa{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+svg .boxt{fill:var(--test-soft);stroke:var(--test);stroke-width:1.5}
+svg .boxo{fill:var(--ok-soft);stroke:var(--ok);stroke-width:1.5}
+svg .arrow{stroke:var(--muted);stroke-width:1.6;fill:none}
+svg .ah{fill:var(--muted)}
+
+details.check{border:1px solid var(--line);border-radius:8px;background:var(--surface);margin:12px 0 8px}
+details.check summary{cursor:pointer;padding:10px 16px 10px 48px;font-weight:500;list-style:none;position:relative}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"?";position:absolute;left:14px;top:11px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--surface);font-weight:700;font-size:13px}
+details.check[open] summary{border-bottom:1px solid var(--line)}
+details.check .ans{padding:10px 16px 12px}
+details.check .ans p:last-child{margin:0}
+
+.recap{font-size:15.5px;border-top:1px solid var(--line);padding-top:10px;margin-top:14px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.recap .s{color:var(--muted);flex:1 1 320px}
+.recap .s b{color:var(--fg)}
+.donebtn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:5px 12px;border-radius:99px;cursor:pointer}
+.donebtn[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:700}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.demo{border:1.5px solid var(--accent);border-radius:10px;background:var(--surface);padding:16px;margin:18px 0}
+.demo .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:10px}
+.pane{border:1px solid var(--line);border-radius:8px;padding:12px;min-width:0;background:var(--bg)}
+.pane h5{margin:0 0 4px;font-size:15px}
+.pane .q{font-size:14.5px;color:var(--muted);margin-bottom:8px}
+.runbtn{font:inherit;font-size:14.5px;font-weight:700;background:var(--accent);color:var(--surface);border:0;border-radius:6px;padding:6px 14px;cursor:pointer}
+.log{font-family:var(--f-mono);font-size:13px;margin:10px 0 0;padding:0;list-style:none;max-height:170px;overflow:auto}
+.log li{padding:3px 0;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:0 8px;border-radius:99px;font-size:12px;font-weight:700;font-family:var(--f-body)}
+.pill.pos{background:var(--ok-soft);color:var(--ok)}
+.pill.neg{background:var(--test-soft);color:var(--warn)}
+.pill.neu{background:var(--accent-soft);color:var(--accent)}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:4px 12px;align-items:center;margin:8px 0}
+.sl label{font-size:14.5px}
+.sl output{font-family:var(--f-mono);font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+.sl input{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+.result{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.meter{flex:1 1 200px;height:12px;background:var(--line);border-radius:99px;position:relative;overflow:hidden}
+.meter i{position:absolute;inset:0 auto 0 0;background:var(--accent);width:50%;transition:width .15s}
+.meter::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:var(--fg)}
+.big{font-family:var(--f-mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+
+.final{margin-top:64px;padding-top:12px;border-top:2px solid var(--fg)}
+.practice .check summary{font-weight:700}
+.practice .ans p{line-height:1.75}
+footer{color:var(--muted);font-size:14px;margin-top:48px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+<div class="wrap" data-lang="en" data-done="✓ Got it" data-undone="Got it" data-prog="topics done">
+<nav class="rail" aria-label="Topics">
+  <details class="mtoc" id="mtoc" open>
+  <summary>Contents</summary>
+  <div class="prog"><div class="bar"><i id="progbar"></i></div><small id="progtxt">0 / 15 topics done</small></div>
+  <h2>Part A · What AI is</h2>
+  <ol>
+    <li><a href="#t1"><span class="n">01</span><span class="t">What is AI?</span></a></li>
+    <li><a href="#t2"><span class="n">02</span><span class="t">AI vs ML vs DL</span></a></li>
+    <li><a href="#t3"><span class="n">03</span><span class="t">Traditional vs AI Software</span></a></li>
+    <li><a href="#t4"><span class="n">04</span><span class="t">Rule-Based vs AI Systems</span></a></li>
+  </ol>
+  <h2>Part B · How machines learn</h2>
+  <ol>
+    <li><a href="#t5"><span class="n">05</span><span class="t">Dataset, Features, Labels</span></a></li>
+    <li><a href="#t6"><span class="n">06</span><span class="t">Supervised Learning</span></a></li>
+    <li><a href="#t7"><span class="n">07</span><span class="t">Unsupervised Learning</span></a></li>
+    <li><a href="#t8"><span class="n">08</span><span class="t">Reinforcement Learning</span></a></li>
+  </ol>
+  <h2>Part C · Inside the model</h2>
+  <ol>
+    <li><a href="#t9"><span class="n">09</span><span class="t">AI Model</span></a></li>
+    <li><a href="#t10"><span class="n">10</span><span class="t">Parameters</span></a></li>
+    <li><a href="#t11"><span class="n">11</span><span class="t">Weights</span></a></li>
+    <li><a href="#t12"><span class="n">12</span><span class="t">Bias</span></a></li>
+  </ol>
+  <h2>Part D · Using the model</h2>
+  <ol>
+    <li><a href="#t13"><span class="n">13</span><span class="t">Training vs Inference</span></a></li>
+    <li><a href="#t14"><span class="n">14</span><span class="t">Prediction</span></a></li>
+    <li><a href="#t15"><span class="n">15</span><span class="t">Classification vs Regression</span></a></li>
+  </ol>
+  <h2>Wrap-up</h2>
+  <ol>
+    <li><a href="#summary"><span class="n">★</span><span class="t">Summary &amp; Cheat Sheet</span></a></li>
+    <li><a href="#practice"><span class="n">✎</span><span class="t">Practice Questions</span></a></li>
+  </ol>
+  </details>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">Notes · AI Fundamentals · Tester Edition</div>
+  <h1>AI Fundamentals, from first line to last</h1>
+</header>
+
+<!-- ============ PART A ============ -->
+<div class="part"><div class="eyebrow">Part A</div><h2>What AI is, and why it differs from normal software</h2><p>Topics 1–4 are the foundation. This is where the single most important idea for a tester appears.</p></div>
+
+<section class="topic" id="t1">
+  <div class="topic-head"><span class="num">01</span><h3>What is Artificial Intelligence (AI)?</h3></div>
+  <p class="goal">What AI is, why it is used, and where it shows up in real-world software.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Artificial Intelligence (AI)</strong> is the field of computer science concerned with building <strong>computational systems</strong> that perform tasks normally requiring human intelligence, such as <strong>perception</strong>, <strong>reasoning</strong>, <strong>learning</strong>, <strong>natural language understanding</strong> and <strong>decision-making</strong>, typically by learning <strong>statistical patterns</strong> from data and applying them to new <strong>inputs</strong>.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Computational system</dt><dd>Software (and hardware) that takes data in, processes it, and gives a result out.</dd>
+    <dt>Perception</dt><dd>Making sense of raw sensory data, such as recognising objects in an image or words in speech.</dd>
+    <dt>Reasoning</dt><dd>Drawing conclusions or working out answers from the information available.</dd>
+    <dt>Learning</dt><dd>Improving at a task through experience (data) instead of being told every step.</dd>
+    <dt>Natural language understanding</dt><dd>Understanding the meaning of human language such as Hindi or English text.</dd>
+    <dt>Decision-making</dt><dd>Choosing the best option or action among several possibilities.</dd>
+    <dt>Statistical pattern</dt><dd>A regularity that holds most of the time across many examples, e.g. "emails with many links are often spam".</dd>
+    <dt>Input</dt><dd>The data given to the system to act on: a photo, a sentence, a transaction.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>AI is a <strong>goal</strong> (intelligent behaviour), not one specific technique or algorithm.</li>
+    <li>Modern AI mostly <strong>learns from data</strong> rather than being explicitly programmed for every case.</li>
+    <li>Today's AI is <strong>Narrow AI</strong>: very good at one specific task, not general human-level intelligence.</li>
+    <li>AI output is a <strong>best estimate</strong> based on patterns, so it can be wrong even when it sounds confident.</li>
+    <li>In a real product, the AI part is usually <strong>one component</strong> inside a larger, normal software system.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>AI means teaching a machine to do jobs that normally need human understanding: recognising things, understanding language, and making decisions.</p></div>
+  <p>A normal program is told every step: "do this, then do that". An AI system is not given every step. We show it a large number of examples and it works out the <strong>pattern</strong> by itself. On a new input, it answers using that pattern.</p>
+
+  <h4>Why is AI used?</h4>
+  <ul>
+    <li><strong>Where rules are hard to write:</strong> writing if-else rules for "what a cat looks like" is nearly impossible, but it can be learned from thousands of photos.</li>
+    <li><strong>Handling huge data:</strong> finding fraud in millions of transactions is beyond human capacity.</li>
+    <li><strong>Personalisation:</strong> a different recommendation for each user.</li>
+    <li><strong>Automation:</strong> doing repetitive judgement tasks quickly, such as sorting support tickets into categories.</li>
+  </ul>
+
+  <h4>AI in real-world software</h4>
+  <div class="tbl"><table>
+    <thead><tr><th>Application</th><th>What the AI does</th><th>Capability</th></tr></thead>
+    <tbody>
+      <tr><td>Gmail spam filter</td><td>Decides whether an email is spam</td><td>Classification</td></tr>
+      <tr><td>YouTube / Netflix</td><td>Suggests the next video or movie</td><td>Recommendation</td></tr>
+      <tr><td>Google Maps</td><td>Estimates arrival time from traffic</td><td>Prediction (Regression)</td></tr>
+      <tr><td>Phone face unlock</td><td>Recognises your face</td><td>Computer Vision</td></tr>
+      <tr><td>ChatGPT / Claude</td><td>Understands language and writes answers</td><td>Natural Language Processing (NLP), Generative AI</td></tr>
+      <tr><td>Banking app</td><td>Flags suspicious transactions</td><td>Anomaly Detection</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>When you test an app, first identify <strong>which features are AI-based</strong>. Those features need a different testing strategy from the rest, because their output is not always 100% fixed (Topic 3 covers this in detail).</p>
+  </div>
+
+  <details class="check"><summary>Does a calculator app use AI?</summary><div class="ans"><p>No. A calculator follows fixed rules (arithmetic) and learns nothing from data. <span class="mono">2 + 2</span> will always be <span class="mono">4</span>. It is traditional software.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> AI = a machine that learns patterns from examples to do tasks that need human-like understanding.</span><button class="donebtn" data-id="t1" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t2">
+  <div class="topic-head"><span class="num">02</span><h3>AI vs Machine Learning vs Deep Learning</h3></div>
+  <p class="goal">The relationship between AI, ML and DL, and their key differences.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>AI</strong> is the broad discipline of creating intelligent machines. <strong>Machine Learning (ML)</strong> is a <strong>subset</strong> of AI in which <strong>algorithms</strong> learn a <strong>mapping</strong> from data without being <strong>explicitly programmed</strong>. <strong>Deep Learning (DL)</strong> is a subset of ML that uses <strong>multi-layered artificial neural networks</strong> to learn <strong>hierarchical representations</strong> directly from <strong>raw data</strong>.</p><span class="f">Deep Learning ⊂ Machine Learning ⊂ Artificial Intelligence</span></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Subset</dt><dd>A smaller group that lies completely inside a bigger group.</dd>
+    <dt>Algorithm</dt><dd>A fixed, step-by-step procedure for solving a problem, here a procedure for learning from data.</dd>
+    <dt>Mapping</dt><dd>The relationship that connects an input to its output, e.g. email → spam / not spam.</dd>
+    <dt>Explicitly programmed</dt><dd>A developer writing every rule by hand in code.</dd>
+    <dt>Artificial neural network</dt><dd>A model loosely inspired by the brain, made of connected units (neurons) that pass numbers to each other.</dd>
+    <dt>Multi-layered</dt><dd>Neurons arranged in many layers, one after another; "deep" refers to this depth.</dd>
+    <dt>Hierarchical representation</dt><dd>Learning simple features first (edges), then combining them into complex ones (eyes, then faces).</dd>
+    <dt>Raw data</dt><dd>Unprocessed data such as image pixels, audio waves, or plain text.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>The relationship is nested: every DL is ML and every ML is AI, but not the other way round.</li>
+    <li>ML's key difference from classic AI: <strong>the rules are learned, not hand-written</strong>.</li>
+    <li>DL's key difference from classic ML: <strong>features are learned automatically</strong>, not hand-engineered.</li>
+    <li>DL needs far more data and compute (GPUs) but performs best on images, audio and text.</li>
+    <li>More depth brings more power but <strong>less explainability</strong>.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <figure>
+    <svg viewBox="0 0 640 300" role="img" aria-label="ML inside AI, Deep Learning inside ML">
+      <ellipse cx="320" cy="152" rx="300" ry="140" class="box"/>
+      <ellipse cx="370" cy="170" rx="210" ry="108" class="boxa"/>
+      <ellipse cx="420" cy="188" rx="120" ry="70" class="boxo"/>
+      <text x="62" y="110" font-size="20" font-weight="700">AI</text>
+      <text x="62" y="134" font-size="13" class="muted">The broad field of</text>
+      <text x="62" y="152" font-size="13" class="muted">intelligent machines</text>
+      <text x="200" y="150" font-size="18" font-weight="700" class="acc">Machine Learning</text>
+      <text x="200" y="172" font-size="13" class="muted">Learning from data</text>
+      <text x="358" y="190" font-size="17" font-weight="700">Deep Learning</text>
+      <text x="350" y="212" font-size="13" class="muted">Neural networks, many layers</text>
+    </svg>
+    <figcaption>The big circle is AI. ML sits inside it, and Deep Learning sits inside ML.</figcaption>
+  </figure>
+
+  <h4>Each one on its own</h4>
+  <ul>
+    <li><strong>AI (Artificial Intelligence):</strong> the biggest goal, giving a machine intelligent behaviour. It also includes older rule-based "expert systems" that do not learn.</li>
+    <li><strong>ML (Machine Learning):</strong> one way of building AI, in which the machine <strong>learns from data by itself</strong>; we do not write the rules. For example, estimating a new house's price from past house prices.</li>
+    <li><strong>DL (Deep Learning):</strong> a particular kind of ML that uses <span class="en">Artificial Neural Networks</span> with many layers (hence "deep"). It works best on complex data such as images, speech and language. ChatGPT, Claude and face recognition all run on DL.</li>
+  </ul>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>AI</th><th>Machine Learning</th><th>Deep Learning</th></tr></thead>
+    <tbody>
+      <tr><td>Scope</td><td>Largest</td><td>Subset of AI</td><td>Subset of ML</td></tr>
+      <tr><td>Does it learn?</td><td>Not necessarily</td><td>Yes, from data</td><td>Yes, from very large data</td></tr>
+      <tr><td>Data needed</td><td>Little to a lot</td><td>Medium</td><td>Very large</td></tr>
+      <tr><td>Who picks features</td><td>—</td><td>Usually humans (feature engineering)</td><td>The model learns them</td></tr>
+      <tr><td>Hardware</td><td>Ordinary</td><td>A normal CPU is often enough</td><td>Usually needs a GPU</td></tr>
+      <tr><td>Example</td><td>Rule-based chess bot</td><td>Spam filter, price prediction</td><td>Face unlock, ChatGPT</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>DL models are often called a <strong>"black box"</strong>: it is hard to say <em>why</em> the model gave a particular answer. So in testing we focus less on "why" and more on <strong>output behaviour</strong> across many inputs: accuracy, consistency and edge cases.</p>
+  </div>
+
+  <details class="check"><summary>Does every AI system use Machine Learning?</summary><div class="ans"><p>No. A rule-based expert system is also called AI, but it does not learn from data. ML is just one (the most popular) way of building AI.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> AI = the goal, ML = learning from data, DL = powerful ML built on neural networks.</span><button class="donebtn" data-id="t2" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t3">
+  <div class="topic-head"><span class="num">03</span><h3>Traditional Software vs AI-Based Software</h3></div>
+  <p class="goal">How deterministic traditional software differs from probabilistic AI software. <strong>The most important topic for a tester.</strong></p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Traditional software</strong> is <strong>deterministic</strong>: its behaviour is fully defined by <strong>explicitly coded logic</strong>, so a given input in a given <strong>state</strong> always produces the same output. <strong>AI-based software</strong> is <strong>probabilistic</strong>: its behaviour is defined by a <strong>model</strong> learned from data, and it outputs the most likely result together with a <strong>probability / confidence score</strong>, which may <strong>vary</strong> for the same input.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Deterministic</dt><dd>The result is fixed in advance: same input, same output, every time.</dd>
+    <dt>Explicitly coded logic</dt><dd>Conditions and calculations a developer wrote line by line.</dd>
+    <dt>State</dt><dd>The system's current condition (stored data, settings) that can affect the output.</dd>
+    <dt>Probabilistic</dt><dd>The result is based on likelihood, not certainty; the model picks what is most probable.</dd>
+    <dt>Model</dt><dd>The function learned from data that produces outputs (Topic 9).</dd>
+    <dt>Probability / Confidence score</dt><dd>A number between 0 and 1 showing how likely the model thinks its answer is, e.g. 0.87.</dd>
+    <dt>Variable output (non-determinism)</dt><dd>The output can change across runs, due to random sampling, model updates or ambiguous input.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>Deterministic = <strong>predictable and repeatable</strong>; probabilistic = <strong>likely, not guaranteed</strong>.</li>
+    <li>In AI software, "correct" is measured <strong>statistically</strong> (accuracy over many cases), not per single case.</li>
+    <li>Variation comes from random generation settings (sampling / <span class="en">temperature</span>), model version changes, or ambiguous input.</li>
+    <li>AI software can be "working as designed" and still give a <strong>wrong answer</strong> for some inputs.</li>
+    <li>Most real products are <strong>hybrid</strong>: deterministic code wrapped around a probabilistic model.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>Traditional software always gives the same answer for the same input. AI software gives its "best guess" with a confidence level, and that guess can sometimes differ even for the same input.</p></div>
+  <ul>
+    <li><strong>Deterministic:</strong> <span class="mono">calculateGST(1000)</span> will return <span class="mono">180</span> today, tomorrow, and on the millionth run.</li>
+    <li><strong>Probabilistic:</strong> the model says "I think there is an 87% chance this email is spam." A generative AI (a chatbot) may word its answer a little differently each time you ask the same question.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 640 230" role="img" aria-label="Traditional programming vs machine learning flow">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" class="ah"/></marker></defs>
+      <text x="20" y="26" font-size="14" font-weight="700">Traditional Programming</text>
+      <rect x="20" y="40" width="130" height="40" rx="6" class="box"/><text x="85" y="65" font-size="14" text-anchor="middle">Rules (code)</text>
+      <rect x="20" y="88" width="130" height="40" rx="6" class="box"/><text x="85" y="113" font-size="14" text-anchor="middle">Data (input)</text>
+      <path d="M152 60 L230 80" class="arrow" marker-end="url(#ar)"/><path d="M152 108 L230 90" class="arrow" marker-end="url(#ar)"/>
+      <rect x="234" y="62" width="100" height="44" rx="6" class="boxa"/><text x="284" y="89" font-size="14" text-anchor="middle">Program</text>
+      <path d="M336 84 L400 84" class="arrow" marker-end="url(#ar)"/>
+      <rect x="404" y="62" width="130" height="44" rx="6" class="boxo"/><text x="469" y="89" font-size="14" text-anchor="middle">Answers</text>
+      <text x="20" y="160" font-size="14" font-weight="700">Machine Learning</text>
+      <rect x="20" y="170" width="130" height="40" rx="6" class="box"/><text x="85" y="195" font-size="14" text-anchor="middle">Data (input)</text>
+      <rect x="160" y="170" width="130" height="40" rx="6" class="box"/><text x="225" y="195" font-size="14" text-anchor="middle">Answers (labels)</text>
+      <path d="M292 190 L360 190" class="arrow" marker-end="url(#ar)"/>
+      <rect x="364" y="168" width="100" height="44" rx="6" class="boxa"/><text x="414" y="195" font-size="14" text-anchor="middle">Training</text>
+      <path d="M466 190 L520 190" class="arrow" marker-end="url(#ar)"/>
+      <rect x="524" y="168" width="100" height="44" rx="6" class="boxt"/><text x="574" y="187" font-size="13" text-anchor="middle">Rules</text><text x="574" y="204" font-size="12" text-anchor="middle" class="muted">(Model)</text>
+    </svg>
+    <figcaption>In traditional software a person writes the rules. In ML, we give examples with answers and the machine works out the rules (the model).</figcaption>
+  </figure>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>Traditional Software</th><th>AI-Based Software</th></tr></thead>
+    <tbody>
+      <tr><td>Where logic comes from</td><td>Code written by developers</td><td>A model learned from data</td></tr>
+      <tr><td>Output</td><td>Deterministic (fixed)</td><td>Probabilistic (with confidence)</td></tr>
+      <tr><td>Same input, same output?</td><td>Always</td><td>Not necessarily</td></tr>
+      <tr><td>Correctness</td><td>Pass / Fail</td><td>Accuracy %, "how often right"</td></tr>
+      <tr><td>Cause of bugs</td><td>A mistake in code</td><td>Code, data, or model weakness</td></tr>
+      <tr><td>Behaviour changes when</td><td>Code changes</td><td>Code changes, or the model is retrained on new data</td></tr>
+      <tr><td>Expected result</td><td>Exact value</td><td>Acceptable range / quality criteria</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="demo" id="demo-det">
+    <div class="lbl">Try it · Deterministic vs Probabilistic</div>
+    <p style="margin:6px 0 0;font-size:15px">Press each button 5–6 times and compare the outputs.</p>
+    <div class="demo-grid">
+      <div class="pane">
+        <h5>Traditional: GST calculator</h5>
+        <div class="q">Input: <span class="mono">price = 1000, GST = 18%</span></div>
+        <button class="runbtn" id="runTrad">Run</button>
+        <ul class="log" id="logTrad" aria-live="polite"></ul>
+      </div>
+      <div class="pane">
+        <h5>AI: Review sentiment model</h5>
+        <div class="q">Input: <span class="mono">"Food was okay, service was slow"</span></div>
+        <button class="runbtn" id="runAI">Run</button>
+        <ul class="log" id="logAI" aria-live="polite"></ul>
+      </div>
+    </div>
+    <p style="margin:10px 0 0;font-size:14.5px;color:var(--muted)">GST is 180 every time. The sentiment model's confidence keeps shifting, and occasionally the label too, because the review itself is mixed. (This is a simulation to make the idea concrete.)</p>
+  </div>
+
+  <div class="tester"><div class="lbl">Tester Focus · The key takeaway</div>
+    <ul>
+      <li>A traditional test case reads: <em>"Input X → Expected Output Y, exactly."</em></li>
+      <li>AI output can change for the same input, so don't pass or fail it after one run. <strong>Run the same input several times</strong> and check consistency.</li>
+      <li>Write expected results as a <strong>range or criteria</strong>: "Label = Spam, confidence ≥ 0.80" or "the answer correctly states the refund policy."</li>
+      <li>Measure accuracy on <strong>many inputs (a test dataset)</strong>, not one: "940 correct out of 1000 = 94%."</li>
+      <li>When the model is updated (retrained), rerun old passing cases; behaviour can change even if no code changed.</li>
+    </ul>
+  </div>
+
+  <details class="check"><summary>You asked an AI chatbot the same question twice and the wording differed. Is that a bug?</summary><div class="ans"><p>Not necessarily. Generative AI is probabilistic, so different wording is normal. It is a bug when the <strong>meaning is wrong</strong>, facts change, or the answer fails the requirement's criteria.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Traditional = deterministic (fixed output); AI = probabilistic (likely output + confidence).</span><button class="donebtn" data-id="t3" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t4">
+  <div class="topic-head"><span class="num">04</span><h3>Rule-Based Systems vs AI Systems</h3></div>
+  <p class="goal">Systems that follow predefined rules compared with systems that learn patterns from data.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p>A <strong>rule-based system</strong> makes decisions from a fixed set of <strong>human-authored IF–THEN rules</strong> applied by an <strong>inference engine</strong> to a <strong>knowledge base</strong>. An <strong>AI (learning) system</strong> derives its decision logic automatically by learning <strong>patterns</strong> from <strong>training data</strong>, and can <strong>generalise</strong> to inputs that no rule explicitly covers.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Human-authored rules</dt><dd>Rules written by a person, usually a domain expert.</dd>
+    <dt>IF–THEN rule</dt><dd>A condition and its action: IF this is true, THEN do that.</dd>
+    <dt>Inference engine</dt><dd>The part of a rule-based system that checks which rules match and applies them.</dd>
+    <dt>Knowledge base</dt><dd>The stored collection of facts and rules the system uses.</dd>
+    <dt>Pattern</dt><dd>A repeated relationship in data that the model picks up.</dd>
+    <dt>Training data</dt><dd>The examples a model learns from.</dd>
+    <dt>Generalise</dt><dd>Handle new, unseen inputs correctly using what was learned.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>A rule-based system is only as smart as the rules someone wrote; <strong>unseen cases break it</strong>.</li>
+    <li>Learning systems trade <strong>explainability for flexibility</strong>.</li>
+    <li>Rule-based systems are transparent and auditable, best when logic is clear, stable and must be exact.</li>
+    <li><strong>Rule explosion:</strong> as cases grow, rules multiply and start to conflict with each other.</li>
+    <li>Many production systems combine both: a model score plus business rules as guardrails.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>A rule-based system runs on if-then rules that a person wrote. An AI system learns the pattern from data and builds its "rules" internally.</p></div>
+
+  <div class="ex"><div class="lbl">Example · A spam filter built both ways</div>
+    <p><strong>Rule-based:</strong></p>
+    <div class="formula">IF subject contains "FREE" OR "lottery" THEN mark as Spam</div>
+    <p>The problem: a spammer writes "FR33" and the rule fails. Every new trick needs a new rule.</p>
+    <p><strong>AI-based:</strong> show the model 100,000 emails already marked "Spam" or "Not Spam". It learns which words, links and sender patterns signal spam, and often catches emails using new tricks too.</p>
+  </div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>Rule-Based System</th><th>AI System</th></tr></thead>
+    <tbody>
+      <tr><td>Knowledge</td><td>Written by an expert</td><td>Learned from data</td></tr>
+      <tr><td>New situation</td><td>Fails if no rule exists</td><td>Can estimate from patterns</td></tr>
+      <tr><td>Explaining a decision</td><td>Easy: "Rule #12 fired"</td><td>Hard (black box)</td></tr>
+      <tr><td>Output</td><td>Deterministic</td><td>Probabilistic</td></tr>
+      <tr><td>Maintenance</td><td>Rules pile up and tangle</td><td>Retrain with new data</td></tr>
+      <tr><td>Best for</td><td>Clear, few, stable rules (tax, eligibility)</td><td>Complex patterns (images, language, fraud)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>In a rule-based system you can write a test case per rule (boundary values, decision tables). In an AI system the rules are invisible, so testing is <strong>data-driven</strong>: check behaviour with varied, tricky and unseen inputs. Many real products contain both (an AI score plus a business rule), so test each part separately.</p>
+  </div>
+
+  <details class="check"><summary>"If age ≥ 18, the person can vote": AI or a rule?</summary><div class="ans"><p>A rule. The logic is clear, fixed, and must be 100% correct. Using AI here would be overkill and risky.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Rules = written by people, limited but explainable. AI = learned from data, flexible but probabilistic.</span><button class="donebtn" data-id="t4" aria-pressed="false">Got it</button></div>
+</section>
+
+<!-- ============ PART B ============ -->
+<div class="part"><div class="eyebrow">Part B</div><h2>How machines learn</h2><p>Topics 5–8: the raw material for learning (data), and the three ways of learning.</p></div>
+
+<section class="topic" id="t5">
+  <div class="topic-head"><span class="num">05</span><h3>Dataset, Features, and Labels</h3></div>
+  <p class="goal">The role of datasets, input features and expected labels in machine learning.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p>A <strong>dataset</strong> is a <strong>structured collection</strong> of <strong>examples (data points)</strong> used to <strong>train</strong> and <strong>evaluate</strong> a model. Each example is described by <strong>features</strong>, the measurable <strong>input variables (X)</strong>, and, in supervised learning, a <strong>label</strong>, the <strong>target output (y)</strong> the model should learn to predict.</p><span class="f">Dataset = { (X₁, y₁), (X₂, y₂), … , (Xₙ, yₙ) }</span></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Structured collection</dt><dd>Data organised in a fixed format, usually rows and columns like a table.</dd>
+    <dt>Example / data point / sample</dt><dd>One row of the dataset, i.e. one record such as one house or one email.</dd>
+    <dt>Train</dt><dd>Let the model learn its parameters from data.</dd>
+    <dt>Evaluate</dt><dd>Measure how well the trained model performs on data it has not seen.</dd>
+    <dt>Feature</dt><dd>One measurable property of an example, such as area or number of bedrooms.</dd>
+    <dt>Input variables (X)</dt><dd>All the features together that go into the model.</dd>
+    <dt>Label / Target (y)</dt><dd>The correct answer for an example, such as the actual price or "Spam".</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>A model can never be better than its data: <strong>garbage in, garbage out</strong>.</li>
+    <li>Features are all the model "sees"; if a useful signal is missing from the features, the model cannot use it.</li>
+    <li>Labels <strong>define what "correct" means</strong> for the model; wrong labels teach wrong behaviour.</li>
+    <li>Training, validation and test data must stay <strong>separate</strong> to measure true performance.</li>
+    <li>Data must <strong>represent the real-world population</strong> the model will serve.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>A dataset is a table of examples. The columns describing each example are the features, and the column with the right answer is the label.</p></div>
+
+  <div class="ex"><div class="lbl">Example · House price dataset</div>
+  <div class="tbl" style="background:var(--surface)"><table>
+    <thead><tr><th>Area (sq ft)</th><th>Bedrooms</th><th>City</th><th>Age (yrs)</th><th>Price (₹ lakh) — Label</th></tr></thead>
+    <tbody>
+      <tr><td>1200</td><td>2</td><td>Indore</td><td>5</td><td>48</td></tr>
+      <tr><td>1800</td><td>3</td><td>Pune</td><td>2</td><td>110</td></tr>
+      <tr><td>900</td><td>2</td><td>Bhopal</td><td>12</td><td>30</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Each <strong>row</strong> = one example (data point / sample).</li>
+    <li>The first four columns = <strong>features</strong> (inputs, written <span class="mono">X</span>).</li>
+    <li>The last column = <strong>label</strong> (output / target, written <span class="mono">y</span>).</li>
+  </ul></div>
+
+  <h4>The three parts of a dataset (data split)</h4>
+  <ul>
+    <li><strong>Training set</strong> (~70–80%): the model learns from this.</li>
+    <li><strong>Validation set</strong> (~10–15%): used to tune settings while training.</li>
+    <li><strong>Test set</strong> (~10–15%): data the model has never seen; the final exam that measures real performance.</li>
+  </ul>
+
+  <h4>Signs of a good dataset</h4>
+  <ul>
+    <li><strong>Quality:</strong> labels are correct.</li>
+    <li><strong>Quantity:</strong> enough examples.</li>
+    <li><strong>Diversity / representative:</strong> covers every kind of case: every city, age group, language.</li>
+    <li><strong>Balanced:</strong> no class has far more examples than another.</li>
+  </ul>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <ul>
+      <li>Test data must be <strong>separate</strong> from training data. If the model has already "seen" the test examples (data leakage), accuracy will look falsely high.</li>
+      <li>Include edge cases, missing values, wrong formats, other languages and spelling variants in test data.</li>
+      <li>Check label quality too. Sometimes the model is right and the test data's label is wrong.</li>
+    </ul>
+  </div>
+
+  <details class="check"><summary>For email spam detection, what are the features and the label?</summary><div class="ans"><p><strong>Features:</strong> email text, sender, number of links, whether there is an attachment, number of CAPITAL words. <strong>Label:</strong> Spam / Not Spam.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Dataset = the table, Features = input columns (X), Label = the correct answer (y).</span><button class="donebtn" data-id="t5" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t6">
+  <div class="topic-head"><span class="num">06</span><h3>Supervised Learning</h3></div>
+  <p class="goal">How models learn from labeled data, and where supervised learning is used.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Supervised learning</strong> is a machine-learning <strong>paradigm</strong> in which a model learns a <strong>function f: X → y</strong> from a <strong>labeled training dataset</strong> of <strong>input–output pairs</strong>, by <strong>iteratively minimising</strong> a <strong>loss function</strong> that measures the difference between its predictions and the <strong>true labels (ground truth)</strong>.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Paradigm</dt><dd>A general approach or style of doing something; here, a style of learning.</dd>
+    <dt>Function f: X → y</dt><dd>A rule that converts input X into output y.</dd>
+    <dt>Labeled training dataset</dt><dd>Training examples where every input already has its correct answer attached.</dd>
+    <dt>Input–output pair</dt><dd>One example plus its answer, e.g. (email, "Spam").</dd>
+    <dt>Iteratively</dt><dd>Repeating the same step many times, improving a little each time.</dd>
+    <dt>Minimise</dt><dd>Make as small as possible.</dd>
+    <dt>Loss function</dt><dd>A formula that gives a number for how wrong the predictions are; lower is better.</dd>
+    <dt>Ground truth</dt><dd>The actual, correct answer, which the prediction is compared against.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>"Supervised" means the <strong>correct answer is provided</strong> during training.</li>
+    <li>Learning = <strong>reducing the error</strong> between prediction and label, step by step.</li>
+    <li>It has two families: <strong>classification</strong> (categories) and <strong>regression</strong> (numbers).</li>
+    <li>The goal is <strong>generalisation</strong> to unseen data, not memorising training data.</li>
+    <li>The cost of getting labels is the main practical bottleneck.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>We give the model inputs together with their correct answers. The model learns the link between input and answer so it can answer correctly for new inputs.</p></div>
+
+  <h4>Analogy</h4>
+  <p>A teacher shows a child flashcards: "this is 🍎, this is 🍌." After many cards, the child can name a new fruit alone. The teacher is the labels, which is why it is called "supervised" (learning under supervision).</p>
+
+  <h4>How learning happens</h4>
+  <ol class="steps">
+    <li>Show the model an example (its features).</li>
+    <li>The model makes a guess (prediction).</li>
+    <li>Compare the guess with the correct label. The difference is the <span class="en">error / loss</span>.</li>
+    <li>The model nudges its internal numbers (weights) so the error goes down.</li>
+    <li>Repeat over thousands of examples. The error gradually shrinks.</li>
+  </ol>
+
+  <h4>Two main types</h4>
+  <ul>
+    <li><strong>Classification:</strong> the label is a category (Spam / Not Spam).</li>
+    <li><strong>Regression:</strong> the label is a number (house price). Details in Topic 15.</li>
+  </ul>
+
+  <h4>Where it is used</h4>
+  <ul>
+    <li>Spam detection, fraud detection</li>
+    <li>Whether a loan will be approved</li>
+    <li>Detecting disease in X-rays</li>
+    <li>Sales and price prediction</li>
+    <li>Customer review sentiment</li>
+  </ul>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>Supervised models are the most straightforward to test because the correct answer (label) exists. Compare predictions to expected labels and compute metrics like <strong>Accuracy, Precision and Recall</strong>. A model is only as good as its labels, so label quality is a risk area too.</p>
+  </div>
+
+  <details class="check"><summary>What is the biggest limitation of supervised learning?</summary><div class="ans"><p>Creating labeled data is expensive and slow. People have to label millions of images by hand, and if the labels contain mistakes, the model learns those same mistakes.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Supervised = teaching with inputs plus correct answers. Output: a category or a number.</span><button class="donebtn" data-id="t6" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t7">
+  <div class="topic-head"><span class="num">07</span><h3>Unsupervised Learning</h3></div>
+  <p class="goal">How models find patterns, groups or relationships without predefined labels.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Unsupervised learning</strong> is a machine-learning paradigm in which a model discovers <strong>hidden structure</strong>, such as <strong>clusters</strong>, <strong>associations</strong>, <strong>low-dimensional representations</strong> or <strong>anomalies</strong>, in <strong>unlabeled data</strong>, typically by measuring <strong>similarity</strong> between examples, without any target output being provided.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Hidden structure</dt><dd>Organisation that exists in the data but is not written down anywhere.</dd>
+    <dt>Cluster</dt><dd>A group of examples that are more similar to each other than to the rest.</dd>
+    <dt>Association</dt><dd>A relationship where items tend to occur together, like bread and butter.</dd>
+    <dt>Low-dimensional representation</dt><dd>Describing data with fewer features while keeping its important information.</dd>
+    <dt>Anomaly</dt><dd>An example that is very different from the normal pattern; an outlier.</dd>
+    <dt>Unlabeled data</dt><dd>Data with inputs only and no correct answers attached.</dd>
+    <dt>Similarity / distance</dt><dd>A numerical measure of how alike two examples are.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>No labels means there is <strong>no "right answer"</strong> to compare against.</li>
+    <li>The model groups items by the <strong>similarity of their features</strong>.</li>
+    <li>The model finds groups; <strong>humans give them meaning</strong> and names.</li>
+    <li>It is often used for <strong>exploration</strong> before building a supervised model.</li>
+    <li>Results depend heavily on the chosen features and settings, such as the number of clusters.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>The data has no labels. The model looks for structure on its own: which items are alike, which are different, and which tend to appear together.</p></div>
+
+  <h4>Analogy</h4>
+  <p>You get a big box of unlabeled buttons. You sort them into groups by colour, size and shape. Nobody told you what the groups should be. That is unsupervised learning.</p>
+
+  <h4>Main techniques</h4>
+  <ul>
+    <li><strong>Clustering:</strong> forming groups of similar items. Example: splitting e-commerce customers into "budget buyers", "festival shoppers" and "premium buyers" (customer segmentation).</li>
+    <li><strong>Association:</strong> what goes together. Example: "people who bought bread often bought butter" (market basket analysis).</li>
+    <li><strong>Anomaly detection:</strong> catching what is very different from the rest. Example: a sudden large foreign transaction at 3 a.m.</li>
+    <li><strong>Dimensionality reduction:</strong> reducing many features to fewer while keeping key information.</li>
+  </ul>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>Supervised</th><th>Unsupervised</th></tr></thead>
+    <tbody>
+      <tr><td>Labels</td><td>Yes</td><td>No</td></tr>
+      <tr><td>Goal</td><td>Predict the right answer</td><td>Find hidden patterns / groups</td></tr>
+      <tr><td>Output</td><td>Known category or number</td><td>Groups / clusters that a human names later</td></tr>
+      <tr><td>Example</td><td>Spam filter</td><td>Customer segmentation</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>There is no predefined "correct answer", so pass/fail is hard to define. Check whether the groups <strong>make business sense</strong>, and whether running again on the same data produces roughly the same groups (stability). For anomaly detection, insert known fraud cases and check they get caught.</p>
+  </div>
+
+  <details class="check"><summary>Netflix split users into 5 groups based on viewing habits without defining the groups first. Which type of learning is this?</summary><div class="ans"><p>Unsupervised learning (clustering). The groups weren't defined in advance; the model created them from the data.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Unsupervised = finding groups and patterns in data without labels.</span><button class="donebtn" data-id="t7" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t8">
+  <div class="topic-head"><span class="num">08</span><h3>Reinforcement Learning</h3></div>
+  <p class="goal">How an AI system learns through rewards, penalties and interaction with an environment.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Reinforcement learning (RL)</strong> is a machine-learning paradigm in which an <strong>agent</strong> learns a <strong>policy</strong>, a mapping from <strong>states</strong> to <strong>actions</strong>, by interacting with an <strong>environment</strong> through <strong>trial and error</strong>, receiving <strong>scalar rewards</strong> or penalties, with the objective of maximising <strong>cumulative reward</strong> over time.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Agent</dt><dd>The learner and decision-maker, such as a game-playing AI or a robot.</dd>
+    <dt>Policy</dt><dd>The learned strategy: "in this situation, take this action".</dd>
+    <dt>State</dt><dd>The current situation of the environment as the agent sees it.</dd>
+    <dt>Action</dt><dd>A move or choice the agent makes.</dd>
+    <dt>Environment</dt><dd>The world the agent operates in: a game, a road, a simulation.</dd>
+    <dt>Trial and error</dt><dd>Trying actions, seeing results, and repeating what worked.</dd>
+    <dt>Scalar reward</dt><dd>A single number telling the agent how good its action was (positive = reward, negative = penalty).</dd>
+    <dt>Cumulative reward</dt><dd>The total reward added up over many steps, not just the next step.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>There are no labeled answers, only <strong>feedback on how good an action was</strong>.</li>
+    <li>Decisions are <strong>sequential</strong>: an action now affects rewards later.</li>
+    <li>The agent balances <strong>exploration</strong> (trying new things) against <strong>exploitation</strong> (using what works).</li>
+    <li>The agent optimises exactly the reward it is given, which can lead to <strong>reward hacking</strong>.</li>
+    <li><strong>RLHF</strong> uses human preferences as the reward to make chatbots more helpful and safe.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>The agent tries actions. Good actions earn a reward and bad ones a penalty. Over many attempts it learns the way of acting that earns the most reward.</p></div>
+
+  <figure>
+    <svg viewBox="0 0 600 220" role="img" aria-label="Reinforcement learning loop">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" class="ah"/></marker></defs>
+      <rect x="40" y="70" width="150" height="70" rx="10" class="boxa"/>
+      <text x="115" y="100" font-size="17" font-weight="700" text-anchor="middle">Agent</text>
+      <text x="115" y="122" font-size="12" text-anchor="middle" class="muted">(the learner)</text>
+      <rect x="410" y="70" width="160" height="70" rx="10" class="boxo"/>
+      <text x="490" y="100" font-size="17" font-weight="700" text-anchor="middle">Environment</text>
+      <text x="490" y="122" font-size="12" text-anchor="middle" class="muted">(game / world)</text>
+      <path d="M190 85 C 280 30, 320 30, 408 85" class="arrow" marker-end="url(#ar2)"/>
+      <text x="300" y="40" font-size="14" text-anchor="middle" font-weight="700">Action</text>
+      <path d="M408 125 C 320 190, 280 190, 192 125" class="arrow" marker-end="url(#ar2)"/>
+      <text x="300" y="188" font-size="14" text-anchor="middle" font-weight="700">New State + Reward / Penalty</text>
+    </svg>
+    <figcaption>The agent acts → the environment changes and gives a reward or penalty → the agent picks a better next action. The loop repeats.</figcaption>
+  </figure>
+
+  <div class="ex"><div class="lbl">Example · Teaching a dog a trick</div>
+    <p>The dog sits → gets a biscuit (reward). It jumps → gets nothing. Within a few days it learns that sitting on "sit" pays off. Nobody gave it labels; it learned from outcomes.</p>
+    <p><strong>Real uses:</strong> game-playing AI (AlphaGo), self-driving cars, robots learning to walk, ad bidding, and improving chatbots like ChatGPT and Claude with human feedback (RLHF: Reinforcement Learning from Human Feedback).</p>
+  </div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Type</th><th>Learns from</th><th>In one line</th></tr></thead>
+    <tbody>
+      <tr><td>Supervised</td><td>Labeled data</td><td>A teacher gives the right answer</td></tr>
+      <tr><td>Unsupervised</td><td>Unlabeled data</td><td>Finds groups on its own</td></tr>
+      <tr><td>Reinforcement</td><td>Rewards / penalties</td><td>Learns by doing and making mistakes</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>An RL agent sometimes learns a <strong>wrong shortcut</strong> to collect reward (reward hacking), such as circling one spot in a game to rack up points. Test not only the score but also whether the <strong>behaviour is safe and sensible</strong>, especially in unusual situations.</p>
+  </div>
+
+  <details class="check"><summary>In RL, what plays the role of the "label"?</summary><div class="ans"><p>The reward signal. The agent is never told the correct answer, only how good its action was.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> RL = agent + environment + reward; learning the best policy through trial and error.</span><button class="donebtn" data-id="t8" aria-pressed="false">Got it</button></div>
+</section>
+
+<!-- ============ PART C ============ -->
+<div class="part"><div class="eyebrow">Part C</div><h2>What sits inside a model</h2><p>Topics 9–12: what learning produces (the model), and the numbers inside it.</p></div>
+
+<section class="topic" id="t9">
+  <div class="topic-head"><span class="num">09</span><h3>AI Model</h3></div>
+  <p class="goal">What an AI model is and how it turns input data into predictions or outputs.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p>An <strong>AI model</strong> is a <strong>parameterised mathematical function</strong>, produced by running a <strong>learning algorithm</strong> on training data, that <strong>maps</strong> input features to an <strong>output</strong> such as a class, a numeric value, or generated content. Its form is fixed by its <strong>architecture</strong>, and its behaviour by its learned <strong>parameters (θ)</strong>.</p><span class="f">ŷ = f(X; θ)</span></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Parameterised</dt><dd>Its behaviour depends on adjustable internal numbers (parameters).</dd>
+    <dt>Mathematical function</dt><dd>A calculation that takes numbers in and gives numbers out.</dd>
+    <dt>Learning algorithm</dt><dd>The procedure that sets the parameters from data, e.g. gradient descent.</dd>
+    <dt>Map</dt><dd>Convert each input into a corresponding output.</dd>
+    <dt>Output ŷ ("y-hat")</dt><dd>The model's predicted value; the hat means "estimated", not the true y.</dd>
+    <dt>Architecture</dt><dd>The structure of the model: how its calculations are arranged (linear, tree, neural network).</dd>
+    <dt>θ (theta)</dt><dd>Standard symbol for all the model's learned parameters together.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li><strong>Model = architecture + learned parameters.</strong></li>
+    <li>The algorithm is the recipe; the model is the dish it produces.</li>
+    <li>A model only knows the patterns that were <strong>present in its training data</strong>.</li>
+    <li>The same architecture trained on different data gives a <strong>different model</strong>.</li>
+    <li>Models are <strong>versioned artifacts</strong>; behaviour is tied to a specific version.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>A model is the "brain" that training produces. It takes input and gives output, using what it learned from data.</p></div>
+  <div class="formula">Input (features)  →  [ Model: f(X) ]  →  Output (prediction)</div>
+
+  <h4>Analogy</h4>
+  <p>A model is like an experienced chef. Years of cooking (training) have built up an instinct. Give them a new vegetable (input) and they decide how much salt it needs (output). All that experience is the "model".</p>
+
+  <h4>What's inside a model</h4>
+  <ul>
+    <li><strong>Architecture:</strong> the model's skeleton, i.e. the structure its calculation follows (linear model, decision tree, neural network). A person chooses this.</li>
+    <li><strong>Parameters (weights + bias):</strong> the numbers learned during training. This is the actual "knowledge".</li>
+  </ul>
+  <p>Saving a model means saving the architecture plus the learned parameters. Large models like ChatGPT have billions of parameters.</p>
+
+  <h4>Popular model types</h4>
+  <ul>
+    <li><strong>Linear regression:</strong> predicts a number with a straight line.</li>
+    <li><strong>Logistic regression:</strong> gives a yes/no probability.</li>
+    <li><strong>Decision tree:</strong> a tree of questions (like if-else, but learned from data).</li>
+    <li><strong>Neural network:</strong> a multi-layer model, the basis of deep learning.</li>
+    <li><strong>LLM (Large Language Model):</strong> a very large neural network for language, such as GPT or Claude.</li>
+  </ul>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>Models have <strong>versions</strong> too (e.g. <span class="mono">fraud-model v2.3</span>). Always record the model version in bug reports, because a new version can give a different output for the same input. Treating the model as a black box and testing it through inputs and outputs is the most common approach.</p>
+  </div>
+
+  <details class="check"><summary>What is the difference between a model and an algorithm?</summary><div class="ans"><p>An <strong>algorithm</strong> is the learning method (the recipe), such as "linear regression". A <strong>model</strong> is what you get after running that algorithm on data: the final function, including its learned numbers.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Model = a function learned from data: input → output. Architecture + parameters.</span><button class="donebtn" data-id="t9" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t10">
+  <div class="topic-head"><span class="num">10</span><h3>Parameters</h3></div>
+  <p class="goal">What model parameters are, and how learned numerical values shape model behaviour.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Parameters</strong> are the <strong>internal numerical variables</strong> of a model, such as <strong>weights</strong> and <strong>biases</strong>, whose values are learned from training data by an <strong>optimisation algorithm</strong> (e.g. <strong>gradient descent</strong>), and which together determine how the model transforms inputs into outputs. They differ from <strong>hyperparameters</strong>, which are set by humans before training.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Internal numerical variable</dt><dd>A number stored inside the model that can change value.</dd>
+    <dt>Weight</dt><dd>A parameter that sets how strongly an input affects the output (Topic 11).</dd>
+    <dt>Bias</dt><dd>A parameter added to the result to shift the output up or down (Topic 12).</dd>
+    <dt>Optimisation algorithm</dt><dd>A method that searches for parameter values that make the loss as small as possible.</dd>
+    <dt>Gradient descent</dt><dd>The most common optimiser: it moves each parameter a little in the direction that reduces error.</dd>
+    <dt>Hyperparameter</dt><dd>A setting chosen by a person before training, such as learning rate or number of layers.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>Parameters are the model's <strong>learned knowledge, stored as numbers</strong>.</li>
+    <li>Changing parameters changes behaviour, <strong>even when the code stays the same</strong>.</li>
+    <li>Parameter count shows a model's capacity, <strong>not a guarantee of quality</strong>.</li>
+    <li>Parameters are learned; hyperparameters are chosen by people.</li>
+    <li>Too many parameters for too little data leads to <strong>overfitting</strong>.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>Parameters are the numbers inside a model that it learns and adjusts by itself during training. Weights and bias are both parameters.</p></div>
+
+  <div class="ex"><div class="lbl">Example · The simplest model</div>
+    <div class="formula">Price = w × Area + b</div>
+    <p><span class="mono">w</span> and <span class="mono">b</span> are the two parameters. They start out random. Suppose training ends with <span class="mono">w = 0.04</span>, <span class="mono">b = 2</span>. Then a 1200 sq ft house = 0.04 × 1200 + 2 = <strong>₹50 lakh</strong>.</p>
+    <p>Change <span class="mono">w</span> and every prediction changes. Parameters decide the model's behaviour.</p>
+  </div>
+
+  <h4>Parameters vs hyperparameters</h4>
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>Parameters</th><th>Hyperparameters</th></tr></thead>
+    <tbody>
+      <tr><td>Who sets them</td><td>The model learns them</td><td>A person (ML engineer) sets them before training</td></tr>
+      <tr><td>Examples</td><td>Weights, bias</td><td>Learning rate, number of layers, epochs</td></tr>
+      <tr><td>Analogy</td><td>What the student learned</td><td>How long and how the teacher taught</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>A sense of scale</h4>
+  <ul>
+    <li>Simple house price model: 2–10 parameters</li>
+    <li>Image recognition model: millions to tens of millions</li>
+    <li>Large LLMs: billions, e.g. a "7B model" has 7 billion parameters</li>
+  </ul>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>Testers don't usually look at parameters directly, but it matters to know that <strong>retraining = changing parameters</strong>. So model behaviour can change while the code stays identical, which makes regression testing essential.</p>
+  </div>
+
+  <details class="check"><summary>Is "learning rate" a parameter or a hyperparameter?</summary><div class="ans"><p>A hyperparameter. A person sets it before training; the model doesn't learn it from data.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Parameters = the model's learned numbers (weights + bias). They hold its knowledge.</span><button class="donebtn" data-id="t10" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t11">
+  <div class="topic-head"><span class="num">11</span><h3>Weights</h3></div>
+  <p class="goal">How weights represent the relative influence of each input on the output.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p>A <strong>weight</strong> is a <strong>learnable parameter</strong> that <strong>multiplies</strong> an input feature (or a <strong>neuron's</strong> input), <strong>scaling its contribution</strong> to the model's output. Its <strong>magnitude</strong> reflects the strength of influence and its <strong>sign</strong> indicates whether the influence is positive or negative. Inputs and weights are combined as a <strong>weighted sum</strong>.</p><span class="f">z = w₁x₁ + w₂x₂ + … + wₙxₙ + b</span></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Learnable parameter</dt><dd>A number the model sets for itself during training.</dd>
+    <dt>Multiply / scale</dt><dd>Make an input's effect bigger or smaller by multiplying it.</dd>
+    <dt>Neuron</dt><dd>A small unit in a neural network that computes a weighted sum and passes it on.</dd>
+    <dt>Contribution</dt><dd>How much one input adds to the final output.</dd>
+    <dt>Magnitude</dt><dd>The size of the number, ignoring its sign (|−0.8| = 0.8).</dd>
+    <dt>Sign</dt><dd>Positive (+) or negative (−); tells whether the input pushes the output up or down.</dd>
+    <dt>Weighted sum</dt><dd>Each input multiplied by its weight, then all added together.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>A weight is the <strong>importance</strong> the model gives to an input.</li>
+    <li>Large magnitude = strong influence; a weight near <strong>0 = almost no influence</strong>.</li>
+    <li>The <strong>sign gives the direction</strong>: positive raises the output, negative lowers it.</li>
+    <li>Weights start random and are adjusted by <strong>gradient descent</strong> to reduce loss.</li>
+    <li>In deep networks, single weights mean little to humans; only their <strong>collective behaviour</strong> matters.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>A weight is a number saying how much a feature affects the output. A bigger weight means more effect; a negative weight pushes the output the other way.</p></div>
+
+  <div class="ex"><div class="lbl">Example · Will a student pass the exam?</div>
+    <ul>
+      <li>Feature 1: study hours → weight <span class="mono">+0.8</span> (strong positive effect)</li>
+      <li>Feature 2: attendance % → weight <span class="mono">+0.3</span> (mild positive effect)</li>
+      <li>Feature 3: daily phone hours → weight <span class="mono">−0.5</span> (negative effect)</li>
+      <li>Feature 4: shoe size → weight <span class="mono">≈ 0</span> (no effect)</li>
+    </ul>
+    <p>The model learned these weights itself during training. Nobody told it that study matters most; the data did.</p>
+  </div>
+
+  <h4>How weights change during training</h4>
+  <p>Weights start out random. After each wrong prediction, the model works out which weights pushed the error up and nudges them a little (this is <span class="en">gradient descent</span>). After thousands of rounds, the weights settle at good values.</p>
+
+  <div class="demo" id="demo-w">
+    <div class="lbl">Try it · Spam prediction with weights and bias</div>
+    <p style="margin:6px 0 4px;font-size:15px">An email has a count of <strong>links</strong> and <strong>CAPITAL words</strong>. Change the weights and bias to see how the model's decision changes.</p>
+    <div class="demo-grid">
+      <div class="pane">
+        <h5>Input features (email)</h5>
+        <div class="sl"><label for="x1">Number of links (x₁)</label><output id="x1o">4</output><input type="range" id="x1" min="0" max="10" step="1" value="4"></div>
+        <div class="sl"><label for="x2">CAPITAL words (x₂)</label><output id="x2o">2</output><input type="range" id="x2" min="0" max="10" step="1" value="2"></div>
+      </div>
+      <div class="pane">
+        <h5>Model parameters</h5>
+        <div class="sl"><label for="w1">Weight w₁ (links)</label><output id="w1o">0.6</output><input type="range" id="w1" min="-1" max="1.5" step="0.1" value="0.6"></div>
+        <div class="sl"><label for="w2">Weight w₂ (CAPS)</label><output id="w2o">0.4</output><input type="range" id="w2" min="-1" max="1.5" step="0.1" value="0.4"></div>
+        <div class="sl"><label for="bb">Bias b</label><output id="bbo">-3.0</output><input type="range" id="bb" min="-6" max="3" step="0.5" value="-3"></div>
+      </div>
+    </div>
+    <div class="formula" id="calc" style="margin-top:12px">z = 0.6×4 + 0.4×2 + (−3.0) = 0.20</div>
+    <div class="result">
+      <span>Spam probability</span>
+      <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+      <span class="big" id="pval">0.55</span>
+      <span id="plabel" class="pill neg">Spam</span>
+    </div>
+    <p style="margin:10px 0 0;font-size:14px;color:var(--muted)">Probability = sigmoid(z), which squeezes z into the 0–1 range. Above 0.5 means Spam (the threshold). Make the bias very negative: the same email becomes "Not Spam".</p>
+  </div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <p>If the model gives a large weight to a feature that should not matter (such as gender or pin code in loan approval), that is a <strong>fairness bug</strong>. Test it by changing only that one feature, keeping everything else the same, and checking whether the output changes.</p>
+  </div>
+
+  <details class="check"><summary>What does it mean if a feature's weight is close to 0?</summary><div class="ans"><p>The model considers that feature to have almost no effect on the output. Removing it would barely change the prediction.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Weight = how important an input is. Larger = more effect; negative = opposite effect.</span><button class="donebtn" data-id="t11" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t12">
+  <div class="topic-head"><span class="num">12</span><h3>Bias</h3></div>
+  <p class="goal">What bias means in machine learning, and how biased data or assumptions distort model outputs.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p>In machine learning, <strong>bias</strong> has two main meanings. (1) The <strong>bias term</strong> is a learnable parameter added to the <strong>weighted sum</strong> that <strong>offsets</strong> the output independently of the inputs. (2) <strong>Model / data bias</strong> is a <strong>systematic error</strong> that makes a model produce <strong>skewed</strong> or unfair outputs for certain groups, typically caused by <strong>unrepresentative data</strong> or flawed <strong>assumptions</strong>.</p><span class="f">(1) y = w·x + <u>b</u>   (2) accuracy(group A) ≫ accuracy(group B)</span></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Bias term (b)</dt><dd>A constant number added to every prediction; also called the intercept.</dd>
+    <dt>Weighted sum</dt><dd>Inputs multiplied by their weights and added together.</dd>
+    <dt>Offset</dt><dd>Shift the whole output up or down by a fixed amount.</dd>
+    <dt>Systematic error</dt><dd>An error that repeats in the same direction, not a random one-off.</dd>
+    <dt>Skewed output</dt><dd>Results that lean unfairly towards or against some group.</dd>
+    <dt>Unrepresentative data</dt><dd>Data that doesn't reflect the real population, e.g. mostly one gender or region.</dd>
+    <dt>Assumption</dt><dd>Something the designers took as true without checking.</dd>
+    <dt>Fairness</dt><dd>The model treats similar people similarly, regardless of protected traits.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>The bias term is <strong>necessary and harmless</strong>; model bias is a <strong>defect</strong>.</li>
+    <li>A model learns whatever is in the data, <strong>including prejudice</strong>.</li>
+    <li>High overall accuracy can <strong>hide poor accuracy for one subgroup</strong>.</li>
+    <li>Deleting a sensitive column doesn't remove bias, because <strong>proxies</strong> (like pin code) carry the same signal.</li>
+    <li>Bias must be tested <strong>group by group</strong> (slice testing).</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <p>"Bias" in ML has <strong>two different meanings</strong>. Know both, or it gets confusing.</p>
+
+  <h4>Meaning 1: bias as a parameter (the bias term)</h4>
+  <div class="def"><div class="lbl">In simple words</div><p>The bias term is an extra number <strong>added</strong> to every prediction whatever the input. It shifts the output's starting point (baseline).</p></div>
+  <p>In <span class="mono">Price = w × Area + b</span>, if Area = 0, the price is still b, like a base land price. The bias slider in the demo above does exactly this: it slides the whole probability up or down. It is a normal, necessary part of a model, not a problem.</p>
+
+  <h4>Meaning 2: bias as unfairness (data / model bias)</h4>
+  <div class="def" style="border-left-color:var(--warn)"><div class="lbl" style="color:var(--warn)">In simple words</div><p>Model bias is when a model <strong>consistently treats some group wrongly or unfairly</strong>, because its training data or assumptions were one-sided. A model learns what is in its data, flaws included.</p></div>
+
+  <div class="ex"><div class="lbl">Real examples</div>
+    <ul>
+      <li><strong>Hiring tool:</strong> trained on 10 years of resumes that came mostly from men, it learned to score women's resumes lower.</li>
+      <li><strong>Face recognition:</strong> trained mostly on lighter-skinned faces, it makes more mistakes on darker skin.</li>
+      <li><strong>Voice assistant:</strong> trained only on American accents, it struggles with Indian accents.</li>
+    </ul>
+  </div>
+
+  <h4>Where bias comes from</h4>
+  <ul>
+    <li><strong>Sampling bias:</strong> some groups weren't equally represented in the data.</li>
+    <li><strong>Historical bias:</strong> past social discrimination was already in the data.</li>
+    <li><strong>Labeling bias:</strong> the labellers' own views crept into the labels.</li>
+    <li><strong>Assumption bias:</strong> the designers made a wrong assumption.</li>
+  </ul>
+
+  <h4>Bonus: bias–variance in brief</h4>
+  <p>There's a third use in ML. <strong>High bias</strong> = the model is too simple to capture the pattern (<span class="en">underfitting</span>). <strong>High variance</strong> = the model memorised the training data and fails on new data (<span class="en">overfitting</span>). A good model balances the two.</p>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <ul>
+      <li>Don't measure only overall accuracy; measure it <strong>separately for each group</strong> (gender, region, language, age). Overall can be 95% while one group gets 70%.</li>
+      <li><strong>Counterfactual test:</strong> change only the name "Rahul" to "Priya", or the city "Delhi" to "Imphal". The output should not change where that detail shouldn't matter.</li>
+      <li>Deliberately include minority and edge groups in the test dataset.</li>
+    </ul>
+  </div>
+
+  <details class="check"><summary>Are the "+ b" bias in a formula and a "biased model" the same thing?</summary><div class="ans"><p>No. "+ b" is a normal parameter that shifts the output. A "biased model" means unfair, one-sided behaviour, which mostly comes from biased data.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Bias term = a parameter that shifts the baseline. Model bias = unfair behaviour learned from biased data.</span><button class="donebtn" data-id="t12" aria-pressed="false">Got it</button></div>
+</section>
+
+<!-- ============ PART D ============ -->
+<div class="part"><div class="eyebrow">Part D</div><h2>Using the model</h2><p>Topics 13–15: learning vs using, how a prediction is formed, and the two kinds of prediction.</p></div>
+
+<section class="topic" id="t13">
+  <div class="topic-head"><span class="num">13</span><h3>Training vs Inference</h3></div>
+  <p class="goal">The difference between training a model and using a trained model to produce outputs.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Training</strong> is the computational process of <strong>fitting</strong> a model's parameters to a dataset by repeatedly computing predictions, measuring <strong>loss</strong>, and updating parameters through <strong>optimisation</strong>, often over several <strong>epochs</strong>. <strong>Inference</strong> is the process of using the trained model, with its parameters <strong>frozen</strong>, to compute outputs for new, <strong>unseen inputs</strong>, typically after <strong>deployment</strong> and under <strong>latency</strong> constraints.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Fitting</dt><dd>Adjusting parameters until the model matches the training data well.</dd>
+    <dt>Loss</dt><dd>A number measuring how wrong the model's predictions are.</dd>
+    <dt>Optimisation</dt><dd>Repeatedly changing parameters to make the loss smaller.</dd>
+    <dt>Epoch</dt><dd>One complete pass of the model through the entire training dataset.</dd>
+    <dt>Frozen parameters</dt><dd>Parameters that are locked and no longer change.</dd>
+    <dt>Unseen input</dt><dd>Data the model didn't see during training.</dd>
+    <dt>Deployment</dt><dd>Putting the trained model into a live app or server where real users use it.</dd>
+    <dt>Latency</dt><dd>How long the model takes to return an answer, e.g. 120 ms.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li><strong>Training changes the model; inference only uses it.</strong></li>
+    <li>Training is costly and occasional; inference is cheap and happens constantly.</li>
+    <li>By default a model <strong>does not learn from users</strong> during inference.</li>
+    <li>Inputs at inference must be <strong>processed exactly as they were in training</strong>.</li>
+    <li>Inference quality can decay over time as the world changes (<strong>data drift</strong>).</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>Training is the model studying (learning its parameters from data). Inference is the model sitting the exam (answering new inputs). During inference, the parameters <strong>do not change</strong>.</p></div>
+
+  <figure>
+    <svg viewBox="0 0 640 200" role="img" aria-label="Training phase and inference phase">
+      <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" class="ah"/></marker></defs>
+      <text x="20" y="24" font-size="14" font-weight="700" class="acc">TRAINING (once / occasionally)</text>
+      <rect x="20" y="36" width="160" height="46" rx="6" class="box"/><text x="100" y="58" font-size="13" text-anchor="middle">Labeled dataset</text><text x="100" y="74" font-size="11" text-anchor="middle" class="muted">millions of examples</text>
+      <path d="M182 59 L238 59" class="arrow" marker-end="url(#ar3)"/>
+      <rect x="242" y="36" width="170" height="46" rx="6" class="boxa"/><text x="327" y="58" font-size="13" text-anchor="middle">Learning algorithm</text><text x="327" y="74" font-size="11" text-anchor="middle" class="muted">adjusts weights</text>
+      <path d="M414 59 L470 59" class="arrow" marker-end="url(#ar3)"/>
+      <rect x="474" y="36" width="146" height="46" rx="6" class="boxt"/><text x="547" y="64" font-size="14" text-anchor="middle" font-weight="700">Trained Model</text>
+      <path d="M547 84 L547 116" class="arrow" marker-end="url(#ar3)"/>
+      <text x="20" y="114" font-size="14" font-weight="700" class="okc">INFERENCE (every user request)</text>
+      <rect x="20" y="126" width="160" height="46" rx="6" class="box"/><text x="100" y="148" font-size="13" text-anchor="middle">New input</text><text x="100" y="164" font-size="11" text-anchor="middle" class="muted">e.g. one new email</text>
+      <path d="M182 149 L470 149" class="arrow" marker-end="url(#ar3)"/>
+      <rect x="474" y="120" width="146" height="58" rx="6" class="boxt"/><text x="547" y="146" font-size="13" text-anchor="middle">Model (fixed)</text><text x="547" y="164" font-size="12" text-anchor="middle" class="muted">→ "Spam, 0.92"</text>
+    </svg>
+    <figcaption>Training builds the model. Inference uses that same model again and again.</figcaption>
+  </figure>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>Training</th><th>Inference</th></tr></thead>
+    <tbody>
+      <tr><td>Purpose</td><td>Build / teach the model</td><td>Get answers from the model</td></tr>
+      <tr><td>Data</td><td>Large labeled dataset</td><td>One or a few new inputs</td></tr>
+      <tr><td>Parameters</td><td>Change</td><td>Fixed</td></tr>
+      <tr><td>Time / cost</td><td>Hours to weeks; very expensive</td><td>Milliseconds to seconds; cheap</td></tr>
+      <tr><td>How often</td><td>Once, or periodic retraining</td><td>On every user request, millions of times</td></tr>
+      <tr><td>Where</td><td>Development / ML pipeline</td><td>Production (the live app)</td></tr>
+      <tr><td>Analogy</td><td>Learning to drive</td><td>Driving every day after learning</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <ul>
+      <li>Testers mostly test <strong>inference</strong>: the model's output in the live app, response time (<span class="en">latency</span>), and behaviour under load.</li>
+      <li><strong>Training-serving mismatch:</strong> if production inputs are formatted differently from training data (say, training used lowercase text and the app sends uppercase), the model will give wrong outputs. Always test input preprocessing.</li>
+      <li>During inference the model does <strong>not learn</strong> from user input (unless it is explicitly retrained).</li>
+    </ul>
+  </div>
+
+  <details class="check"><summary>A user gave feedback 100 times in the app. Will the model change right away?</summary><div class="ans"><p>Usually not. Parameters stay fixed during inference. The feedback may be collected and used in the next training run, producing a new model version.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Training = learning (parameters change); inference = using (parameters fixed).</span><button class="donebtn" data-id="t13" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t14">
+  <div class="topic-head"><span class="num">14</span><h3>Prediction</h3></div>
+  <p class="goal">How a trained model produces a prediction from input data.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p>A <strong>prediction</strong> is the output <strong>ŷ</strong> that a trained model computes for a given input by applying its learned function, typically a <strong>probability distribution</strong> over <strong>classes</strong> or a <strong>continuous estimate</strong>, which is then converted into a final <strong>decision</strong>, often by applying a <strong>threshold</strong>. It usually comes with a <strong>confidence score</strong>.</p><span class="f">ŷ = f(X_new; θ_trained)  →  P(Spam) = 0.92  →  0.92 ≥ 0.5  →  "Spam"</span></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>ŷ (y-hat)</dt><dd>The predicted output, as opposed to the true value y.</dd>
+    <dt>Probability distribution</dt><dd>A probability for each possible answer, all adding up to 1 (e.g. Cat 0.95, Dog 0.04, Rabbit 0.01).</dd>
+    <dt>Class</dt><dd>One of the possible categories the model can choose.</dd>
+    <dt>Continuous estimate</dt><dd>A numeric output that can take any value, such as ₹48.6 lakh.</dd>
+    <dt>Threshold</dt><dd>The cut-off value that turns a probability into a yes/no decision, often 0.5.</dd>
+    <dt>Decision</dt><dd>The final action or label the app uses, e.g. "move to spam folder".</dd>
+    <dt>Confidence score</dt><dd>How sure the model is about its answer, from 0 to 1.</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>A prediction is an <strong>estimate, not a fact</strong>.</li>
+    <li><strong>Confidence ≠ correctness:</strong> a model can be very confident and still wrong.</li>
+    <li>Choosing the threshold is a <strong>business decision</strong> that changes outcomes.</li>
+    <li>Predictions are reliable only for inputs <strong>similar to the training data</strong>.</li>
+    <li>The same model output can trigger different app actions depending on the threshold.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>A prediction is what the trained model says when it sees a new input. It is the model's <strong>best guess</strong>, not a guaranteed truth.</p></div>
+
+  <h4>How a prediction is formed, step by step</h4>
+  <ol class="steps">
+    <li><strong>Input arrives:</strong> e.g. one email.</li>
+    <li><strong>Preprocessing:</strong> the input is turned into numbers (features): links = 4, CAPS = 2…</li>
+    <li><strong>Calculation:</strong> features × weights + bias, through the model's layers.</li>
+    <li><strong>Raw score → probability:</strong> e.g. 0.92 (92% spam).</li>
+    <li><strong>Threshold / decision:</strong> 0.92 &gt; 0.5, so the final label is "Spam".</li>
+    <li><strong>Output to the app:</strong> the email moves to the spam folder.</li>
+  </ol>
+
+  <h4>Predictions come with confidence</h4>
+  <p>Most models return a <strong>confidence score</strong> along with the answer: "Cat: 0.95, Dog: 0.04, Rabbit: 0.01". High confidence does not mean the answer is definitely right. A model can be fully confident and still wrong.</p>
+
+  <h4>Why predictions go wrong</h4>
+  <ul>
+    <li>The input is very different from the training data (the model has never seen anything like it).</li>
+    <li>The training data was too small, wrong or biased.</li>
+    <li>The input itself is ambiguous (e.g. a mixed review).</li>
+    <li>The real world changed (e.g. shopping patterns after COVID). This is called <span class="en">data drift</span>.</li>
+  </ul>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <ul>
+      <li>Test the threshold: the app's behaviour at 0.49 and 0.51 confidence (the AI version of boundary testing).</li>
+      <li>Give "out-of-distribution" inputs: empty input, very long text, emoji, another language, the wrong kind of image. The model shouldn't crash, and the app should handle low confidence gracefully.</li>
+      <li>Prediction quality can drop over time in production (data drift), so monitoring is essential.</li>
+    </ul>
+  </div>
+
+  <details class="check"><summary>A model said "this is a cat" with 99% confidence, but the photo was a dog. Is that possible?</summary><div class="ans"><p>Yes. Confidence is the model's own belief, not a guarantee of truth. That's why testing measures real accuracy, not just confidence.</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Prediction = input → features → weighted calculation → probability → threshold → final output.</span><button class="donebtn" data-id="t14" aria-pressed="false">Got it</button></div>
+</section>
+
+<section class="topic" id="t15">
+  <div class="topic-head"><span class="num">15</span><h3>Classification vs Regression</h3></div>
+  <p class="goal">The difference between categorical prediction and numerical prediction problems.</p>
+
+  <div class="stage">Technical Definition</div>
+  <div class="techdef"><p><strong>Classification</strong> is a <strong>supervised-learning task</strong> in which the model predicts a <strong>discrete class label</strong> from a <strong>finite set</strong> of categories (<strong>binary</strong> or <strong>multi-class</strong>). <strong>Regression</strong> is a supervised-learning task in which the model predicts a <strong>continuous</strong> numeric value. Each is evaluated with its own <strong>error metrics</strong>.</p></div>
+  <div class="stage">Terms Used</div>
+  <dl class="terms">
+    <dt>Supervised-learning task</dt><dd>A problem solved by learning from labeled examples.</dd>
+    <dt>Discrete</dt><dd>Separate, countable options with nothing in between (Spam or Not Spam).</dd>
+    <dt>Class label</dt><dd>The name of the category, e.g. "Cat".</dd>
+    <dt>Finite set</dt><dd>A fixed, limited list of possible answers.</dd>
+    <dt>Binary / Multi-class</dt><dd>Two possible classes / more than two possible classes.</dd>
+    <dt>Continuous</dt><dd>Any value within a range, including decimals (₹48.73 lakh).</dd>
+    <dt>Error metric</dt><dd>A formula that measures how good or bad the predictions are (accuracy, MAE…).</dd>
+  </dl>
+  <div class="stage">Deep Understanding</div>
+  <ul class="oneliners">
+    <li>Ask: <strong>"Which one?"</strong> → classification; <strong>"How much?"</strong> → regression.</li>
+    <li>Classifiers usually output <strong>probabilities first</strong>, then apply a threshold to pick a class.</li>
+    <li>Regression error is a <strong>distance</strong> (how far off); classification error is <strong>right or wrong</strong>.</li>
+    <li>The same problem can be framed either way: an exact price (regression) or a price band (classification).</li>
+    <li>The wrong metric misleads: <strong>accuracy on imbalanced data</strong> can look great while the model is useless.</li>
+  </ul>
+
+  <div class="stage">Explanation</div>
+  <div class="def"><div class="lbl">In simple words</div><p>Classification = the output is a <strong>category</strong> ("which one?"). Regression = the output is a <strong>number</strong> ("how much?"). Both are types of supervised learning.</p></div>
+
+  <h4>A quick trick to tell them apart</h4>
+  <p>Ask: <strong>"Is the answer chosen from a fixed list of options, or can it be any number?"</strong> Options → classification. Any number → regression.</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Point</th><th>Classification</th><th>Regression</th></tr></thead>
+    <tbody>
+      <tr><td>Output</td><td>Category (label)</td><td>Number (value)</td></tr>
+      <tr><td>Question</td><td>Which one? Yes or no?</td><td>How much? How many?</td></tr>
+      <tr><td>Examples</td><td>Spam / not spam, cat / dog / bird, loan approve / reject, sentiment positive / negative</td><td>House price, tomorrow's temperature, delivery time, next month's sales</td></tr>
+      <tr><td>Types</td><td>Binary (2 classes), multi-class (2+ classes)</td><td>Linear, polynomial, etc.</td></tr>
+      <tr><td>Measuring error</td><td>Accuracy, precision, recall, confusion matrix</td><td>MAE, MSE, RMSE (how far off)</td></tr>
+      <tr><td>What a mistake means</td><td>Wrong category (right or wrong)</td><td>Off by some amount (₹2 lakh off)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Metrics in brief</h4>
+  <ul>
+    <li><strong>Accuracy:</strong> how many were right out of all.</li>
+    <li><strong>Precision:</strong> of those labelled "Spam", how many really were spam (few false alarms?).</li>
+    <li><strong>Recall:</strong> of all real spam, how many were caught (anything missed?).</li>
+    <li><strong>MAE (Mean Absolute Error):</strong> the average amount the predictions were off by, e.g. "₹3 lakh on average".</li>
+  </ul>
+
+  <div class="tester"><div class="lbl">Tester Focus</div>
+    <ul>
+      <li><strong>Classification tests:</strong> expected = the exact class. Build a confusion matrix to see which classes get mixed up. In medical or fraud cases, missing a positive (low recall) is the more dangerous error.</li>
+      <li><strong>Regression tests:</strong> don't match exact numbers. Use a <strong>tolerance</strong>: "pass if the predicted price is within ±10% of actual." Add sanity checks too: no negative prices, and a bigger house shouldn't cost less than a smaller one.</li>
+    </ul>
+  </div>
+
+  <details class="check"><summary>"Will the customer leave the app next month?" vs "How much will the customer spend next month?" Which is which?</summary><div class="ans"><p>The first is <strong>classification</strong> (yes/no). The second is <strong>regression</strong> (an amount).</p></div></details>
+  <div class="recap"><span class="s"><b>Summary:</b> Classification = "which one" (a category). Regression = "how much" (a number).</span><button class="donebtn" data-id="t15" aria-pressed="false">Got it</button></div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section class="final" id="summary">
+  <div class="eyebrow">The whole story in one go</div>
+  <h3 style="margin-top:4px">Summary &amp; Cheat Sheet</h3>
+  <p style="margin-top:12px"><strong>AI</strong> is the field of making machines intelligent. Its most popular approach is <strong>machine learning</strong>, where a machine learns from a <strong>dataset</strong>. Each example in a dataset has <strong>features</strong> (inputs) and often a <strong>label</strong> (the right answer). Learning with labels is <strong>supervised</strong>, without labels is <strong>unsupervised</strong>, and from rewards is <strong>reinforcement</strong> learning. During <strong>training</strong>, the model adjusts its <strong>parameters</strong> (<strong>weights</strong> and <strong>bias</strong>). The trained <strong>model</strong> then makes a <strong>prediction</strong> on new input during <strong>inference</strong>, which can be a category (<strong>classification</strong>) or a number (<strong>regression</strong>). If the data is biased, the model will be <strong>biased</strong> too. And most important of all: traditional software is <strong>deterministic</strong>, AI software is <strong>probabilistic</strong>.</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Term</th><th>In one line</th><th>What a tester should remember</th></tr></thead>
+    <tbody>
+      <tr><td>AI</td><td>A machine that does intelligent tasks</td><td>Identify which features are AI</td></tr>
+      <tr><td>ML / DL</td><td>Learning from data / neural networks</td><td>DL is a black box; test behaviour</td></tr>
+      <tr><td>Traditional vs AI</td><td>Deterministic vs probabilistic</td><td>Run the same input repeatedly; write expected results as ranges</td></tr>
+      <tr><td>Rule-based vs AI</td><td>Written rules vs learned patterns</td><td>Rules = decision tables; AI = data-driven tests</td></tr>
+      <tr><td>Dataset / Features / Label</td><td>Table / input columns / right answer</td><td>Keep test data separate; check labels</td></tr>
+      <tr><td>Supervised</td><td>Learning from labels</td><td>Compare to expected labels; use metrics</td></tr>
+      <tr><td>Unsupervised</td><td>Finding groups without labels</td><td>Are groups sensible and stable?</td></tr>
+      <tr><td>Reinforcement</td><td>Learning from rewards</td><td>Reward hacking, unsafe behaviour</td></tr>
+      <tr><td>Model</td><td>A learned function</td><td>Record the model version in bug reports</td></tr>
+      <tr><td>Parameters</td><td>Learned numbers</td><td>Retraining can change behaviour</td></tr>
+      <tr><td>Weights</td><td>Importance of a feature</td><td>Influence from an irrelevant feature = fairness bug</td></tr>
+      <tr><td>Bias</td><td>Baseline term / unfairness</td><td>Measure accuracy per group</td></tr>
+      <tr><td>Training vs Inference</td><td>Learning vs using</td><td>Inference: latency, input format</td></tr>
+      <tr><td>Prediction</td><td>Best guess + confidence</td><td>Thresholds, out-of-distribution inputs</td></tr>
+      <tr><td>Classification vs Regression</td><td>Category vs number</td><td>Exact class vs tolerance range</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="final practice" id="practice">
+  <div class="eyebrow">Test yourself</div>
+  <h3 style="margin-top:4px">Practice Questions</h3>
+  <p style="color:var(--muted);margin-top:8px">Think it through first, then click to see the full explanation.</p>
+  <details class="check"><summary>1. What is the biggest difference between testing traditional software and testing AI software?</summary><div class="ans"><p>Traditional software is deterministic, so a test case compares the actual output with one exact expected value and the result is a clear pass or fail. AI software is probabilistic: the same input can give slightly different outputs, and even a well-working model is wrong on some inputs. So instead of one exact value, AI testing defines acceptable criteria (e.g. "label = Spam with confidence ≥ 0.8"), runs the same input several times to check consistency, and measures accuracy across a large test dataset. In short, traditional testing asks "is this one output correct?" while AI testing asks "how often, and how reliably, is the output acceptable?"</p></div></details>
+  <details class="check"><summary>2. "How many people are in this photo?" and "Is there a person in this photo?" What kind of problems are these?</summary><div class="ans"><p>"Is there a person in this photo?" has only two possible answers, yes or no, so it is <strong>binary classification</strong>. "How many people?" has a numeric answer (0, 1, 2, 3 …), so it is closer to <strong>regression</strong>; in practice it is usually solved by object detection, where the model finds each person and counts them. The deciding question is always the type of output: a fixed list of categories means classification, a number means regression. A tester would check the first with exact match and a confusion matrix, and the second with the size of the error (e.g. off by one person).</p></div></details>
+  <details class="check"><summary>3. A model has 99% training accuracy but only 60% test accuracy. What happened?</summary><div class="ans"><p>This is <strong>overfitting</strong> (high variance). The model memorised the training examples, including their noise and accidental details, instead of learning the general pattern, so it fails on data it hasn't seen. It's like a student who memorised last year's answer key and then faces new questions in the real exam. Common causes are too little training data, a model with too many parameters for that data, or training for too long. The large gap between training and test accuracy is the key warning sign a tester should report.</p></div></details>
+  <details class="check"><summary>4. In a loan model, changing only the applicant's gender (everything else the same) changed the decision. What does this indicate?</summary><div class="ans"><p>It indicates <strong>model bias</strong> (unfairness). Since everything except gender stayed the same, gender alone changed the outcome, which means the model has learned to give weight to a feature that shouldn't affect a loan decision. This usually happens when historical data reflects past discrimination, for example fewer approved loans for women. The technique used here is a <strong>counterfactual fairness test</strong>, and the finding is a valid, high-severity bug that should be reported with the exact input pairs used.</p></div></details>
+  <details class="check"><summary>5. Explain the difference between weights and hyperparameters.</summary><div class="ans"><p><strong>Weights</strong> are parameters: numbers inside the model that it learns automatically from data during training, and they decide how much each input affects the output. <strong>Hyperparameters</strong> are settings a person chooses before training starts, such as the learning rate, number of layers or number of epochs; the model does not learn them. Think of weights as what a student learns, and hyperparameters as how the teacher chose to teach (how long, how fast). Changing hyperparameters changes how training happens, which in turn leads to different learned weights.</p></div></details>
+  <details class="check"><summary>6. A chatbot sometimes gives a correct fact and sometimes a wrong one for the same question. What should a tester do?</summary><div class="ans"><p>Because the system is probabilistic, one correct run proves nothing, so the tester should run the same prompt many times (say 20) and record how often the fact is wrong. The bug report should include the exact prompt, the model version, settings such as temperature, sample correct and incorrect outputs, and the failure rate (e.g. "wrong in 6 of 20 runs"). It should be reported as inconsistent factual output, not dismissed as normal variation, because the variation is in meaning and not just wording. That failure rate also gives the team a baseline to check whether a fix actually works.</p></div></details>
+  <details class="check"><summary>7. Which type of learning best fits teaching a self-driving car to drive, and why?</summary><div class="ans"><p><strong>Reinforcement learning</strong> fits best, usually combined with supervised learning. Driving is a sequence of decisions where each action (brake, steer, accelerate) changes the next situation, which is exactly the agent–environment–reward loop of RL. The car (agent) earns rewards for safe, smooth progress and penalties for collisions or breaking rules, and learns a policy over many simulated trips. Supervised learning is still used for parts like recognising pedestrians and road signs from labeled images.</p></div></details>
+  <details class="check"><summary>8. A shop wants to find groups of similar customers, but has no predefined groups. Which learning type fits, and how would you test it?</summary><div class="ans"><p>This is <strong>unsupervised learning</strong>, specifically <strong>clustering</strong>, because there are no labels saying which group each customer belongs to; the model forms groups from similarities in purchase data. Since there is no "right answer", a tester checks whether the groups make business sense (e.g. a clear "festival shopper" group), whether they are stable when the model is rerun on the same data, and whether each customer lands in only one sensible group. Humans then review and name the clusters before the business uses them.</p></div></details>
+</section>
+
+<footer>AI Fundamentals Notes (English) · Your progress is saved in this browser (the "Got it" buttons).</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var W=document.querySelector('.wrap');
+  document.documentElement.lang=W.dataset.lang||'en';
+  var KEY='aiFundNotesDone_'+(W.dataset.lang||'x');
+  var done={};
+  try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){done={}}
+  var btns=document.querySelectorAll('.donebtn');
+  function render(){
+    var n=0;
+    btns.forEach(function(b){
+      var on=!!done[b.dataset.id];
+      b.setAttribute('aria-pressed',on?'true':'false');
+      b.textContent=on?W.dataset.done:W.dataset.undone;
+      var a=document.querySelector('.rail a[href="#'+b.dataset.id+'"]');
+      if(a)a.classList.toggle('done',on);
+      if(on)n++;
+    });
+    document.getElementById('progbar').style.width=(n/btns.length*100)+'%';
+    document.getElementById('progtxt').textContent=n+' / '+btns.length+' '+W.dataset.prog;
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    done[b.dataset.id]=!done[b.dataset.id];
+    try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}
+    render();
+  })});
+  render();
+
+  var links={};document.querySelectorAll('.rail a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){Object.keys(links).forEach(function(k){links[k].classList.remove('active')});var l=links[e.target.id];if(l)l.classList.add('active')}
+    })},{rootMargin:'-20% 0px -70% 0px'});
+    document.querySelectorAll('section[id]').forEach(function(s){io.observe(s)});
+  }
+  var mt=document.getElementById('mtoc');
+  var mq=window.matchMedia('(max-width:900px)');
+  if(mq.matches)mt.open=false;
+  document.querySelectorAll('.rail a').forEach(function(a){a.addEventListener('click',function(){if(mq.matches)mt.open=false})});
+
+  var tr=0,ai=0;
+  function add(ul,html){var li=document.createElement('li');li.innerHTML=html;ul.insertBefore(li,ul.firstChild)}
+  document.getElementById('runTrad').addEventListener('click',function(){
+    tr++;var gst=1000*0.18;
+    add(document.getElementById('logTrad'),'Run '+tr+': GST = ₹'+gst.toFixed(0)+' · Total = ₹'+(1000+gst).toFixed(0));
+  });
+  document.getElementById('runAI').addEventListener('click',function(){
+    ai++;
+    var p=0.40+(Math.random()-0.5)*0.22, ng=0.32+(Math.random()-0.5)*0.18;
+    if(ng<0.05)ng=0.05;var nu=Math.max(0.05,1-p-ng);var s=p+ng+nu;p/=s;ng/=s;nu/=s;
+    var arr=[['Positive',p,'pos'],['Negative',ng,'neg'],['Neutral',nu,'neu']].sort(function(a,b){return b[1]-a[1]});
+    add(document.getElementById('logAI'),'Run '+ai+': <span class="pill '+arr[0][2]+'">'+arr[0][0]+'</span> confidence '+arr[0][1].toFixed(2));
+  });
+
+  var ids=['x1','x2','w1','w2','bb'];
+  function fmt(v){return (v<0?'−':'')+Math.abs(v).toFixed(1)}
+  function upd(){
+    var v={};ids.forEach(function(i){v[i]=parseFloat(document.getElementById(i).value);
+      document.getElementById(i+'o').textContent=(i==='x1'||i==='x2')?v[i]:fmt(v[i])});
+    var z=v.w1*v.x1+v.w2*v.x2+v.bb;
+    var p=1/(1+Math.exp(-z));
+    document.getElementById('calc').textContent='z = '+fmt(v.w1)+'×'+v.x1+' + '+fmt(v.w2)+'×'+v.x2+' + ('+fmt(v.bb)+') = '+(z<0?'−':'')+Math.abs(z).toFixed(2);
+    document.getElementById('meter').style.width=(p*100)+'%';
+    document.getElementById('pval').textContent=p.toFixed(2);
+    var lb=document.getElementById('plabel');
+    if(p>=0.5){lb.textContent='Spam';lb.className='pill neg'}else{lb.textContent='Not Spam';lb.className='pill pos'}
+  }
+  ids.forEach(function(i){document.getElementById(i).addEventListener('input',upd)});
+  upd();
+})();
+</script>
+
+</body></html>
